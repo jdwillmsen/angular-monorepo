@@ -17,7 +17,8 @@
         "tsConfig": "apps/angular-store/tsconfig.app.json",
         "assets": [
           "apps/angular-store/src/favicon.ico",
-          "apps/angular-store/src/assets"
+          "apps/angular-store/src/assets",
+          "apps/angular-store/src/_redirects"
         ],
         "styles": ["apps/angular-store/src/styles.css"],
         "scripts": []
@@ -73,7 +74,8 @@
       "options": {
         "lintFilePatterns": [
           "apps/angular-store/**/*.ts",
-          "apps/angular-store/**/*.html"
+          "apps/angular-store/**/*.html",
+          "./functions/**/*.ts"
         ]
       }
     },
@@ -95,6 +97,26 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "angular-store:build"
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "command": "npx netlify deploy --prod --dir=dist/apps/angular-store"
+    },
+    "serve-functions": {
+      "command": "npx netlify dev"
+    },
+    "deploy-functions": {
+      "dependsOn": ["lint"],
+      "command": "npx netlify deploy",
+      "options": {
+        "cwd": "apps/angular-store"
+      },
+      "configurations": {
+        "production": {
+          "command": "npx netlify deploy --prod",
+          "cwd": "apps/angular-store"
+        }
       }
     }
   }

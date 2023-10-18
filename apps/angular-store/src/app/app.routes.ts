@@ -17,4 +17,8 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('@angular-monorepo/orders').then((m) => m.OrderListComponent),
   },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
